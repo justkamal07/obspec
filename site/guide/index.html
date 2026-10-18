@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How to use Obspec · Obsidian × Figma Specs</title>
+<meta name="description" content="A step-by-step guide to Obspec: one-time setup, searching your Obsidian vault inside Figma, dropping notes on the canvas as Specs, and keeping both sides in sync. With screenshots.">
+<meta property="og:title" content="How to use Obspec">
+<meta property="og:description" content="One-time setup, then search your Obsidian vault inside Figma and keep notes and Specs in sync. Step by step, with screenshots.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://kamal007olica.github.io/obspec/guide/img/05-canvas-card.png">
+<meta name="theme-color" content="#0b0b0e">
+<link rel="canonical" href="https://kamal007olica.github.io/obspec/guide/">
+<!-- PostHog: same project as the landing page; this page registers site_page=guide. -->
+<script>
+!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],Object.defineProperty(u,"toString",{configurable:!0,enumerable:!0,writable:!0,value:function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e}}),Object.defineProperty(u.people,"toString",{configurable:!0,enumerable:!0,writable:!0,value:function(){return u.toString(1)+".people (stub)"}}),o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagResult isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+(function(){
+  var local=/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+  var debug=/[?&]ph=debug\b/.test(location.search);
+  posthog.init('phc_rG6Tf5nUitR2hXW832HsSLm7qtst6VQ2db7AwUQ66vGp',{api_host:'https://us.i.posthog.com',defaults:'2026-05-30',autocapture:true,capture_pageleave:true,session_recording:{maskAllInputs:true,recordCrossOriginIframes:false},opt_out_capturing_by_default:local&&!debug});
+  posthog.register({site:'obspec',site_version:'1.0',site_page:'guide'});
+})();
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0b0e'/%3E%3Cg transform='translate%2817 7.5%29 scale%28.79%29'%3E%3Cpath d='M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z' fill='%234a2a93'/%3E%3Cpath d='M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z' fill='%232d1a5e'/%3E%3Cpath d='M19 0v19h9.5a9.5 9.5 0 1 0 0-19z' fill='%235a35ad'/%3E%3Cpath d='M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z' fill='%233b2278'/%3E%3Cpath d='M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z' fill='%2333206b'/%3E%3Cpath d='M19 0l9.5 0 0 9.5-9.5 9.5z' fill='%238a66d8' opacity='.55'/%3E%3Cpath d='M28.5 19l-5 4 0 9.5 7-3.5z' fill='%239f7ff0' opacity='.45'/%3E%3Cpath d='M0 9.5L9.5 0 19 0 5 14z' fill='%236a48b8' opacity='.4'/%3E%3Cpath d='M9.5 38L19 38 19 47.5 4 48z' fill='%236a48b8' opacity='.35'/%3E%3Cpath d='M0 38q19 -2 38 -9.5' fill='none' stroke='%23c8b4ff' stroke-width='.8' opacity='.5'/%3E%3C/g%3E%3C/svg%3E">
+<style>
+/* Obspec guide: the landing page's obsidian-glass palette, OffBit display type and pill buttons, laid out as a long-form
+   article. Each step is text on the left and a real screenshot of the plugin on the right (stacked on phones). */
+@font-face{font-family:"OffBit";font-weight:400;font-style:normal;src:url("../assets/fonts/OffBitTrial-Regular.woff") format("woff");font-display:swap}
+@font-face{font-family:"OffBit";font-weight:700;font-style:normal;src:url("../assets/fonts/OffBitTrial-Bold.woff") format("woff");font-display:swap}
+:root{
+  color-scheme:dark;
+  --bg:#0b0b0e;--bg-2:#121216;--bg-3:#1a1a20;--line:rgba(242,241,238,.1);--line-2:rgba(242,241,238,.18);
+  --text:#f2f1ee;--dim:rgba(242,241,238,.62);--mute:rgba(242,241,238,.4);
+  --purple:#8f6bff;--purple-2:#b79bff;--purple-soft:rgba(143,107,255,.16);
+  --display:"OffBit","SF Mono",Menlo,monospace;
+  --sys:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",system-ui,sans-serif;
+  --mono:"SF Mono",Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.22,.8,.2,1);
+  --gutter:max(24px,env(safe-area-inset-left,0px));--gutter-r:max(24px,env(safe-area-inset-right,0px));
+  --top-h:72px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:calc(var(--top-h) + 24px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sys);font-size:16px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--purple);color:var(--bg)}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--purple-2);outline-offset:3px}
+.glow{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(60% 50% at 50% 0%,rgba(143,107,255,.16),transparent 70%)}
+.d{font-family:var(--display);font-weight:700;line-height:.95;letter-spacing:.005em}
+.d .sq{display:inline-block;width:.4em;height:.4em;background:var(--purple);vertical-align:baseline;margin-left:.12em;transform:translateY(.02em)}
+
+/* ---------- top bar ---------- */
+.top{position:sticky;top:0;z-index:50;height:var(--top-h);display:flex;align-items:center;justify-content:space-between;gap:14px;padding:0 var(--gutter-r) 0 var(--gutter);
+  background:linear-gradient(var(--bg) 70%,rgba(11,11,14,0));margin-top:env(safe-area-inset-top,0px)}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
+.brand .mark{width:40px;height:40px;border-radius:10px;display:block;flex:none}
+.brand .word{font-family:var(--display);font-weight:700;font-size:24px;line-height:1;color:var(--text);transform:translateY(2px)}
+.brand .sub{display:block;margin-top:5px;font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.brand .sub i{font-style:normal;color:var(--purple-2);padding:0 3px}
+.top-right{display:flex;align-items:center;gap:10px}
+.crumb{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.crumb:hover{color:var(--text)}
+.crumb svg{width:12px;height:12px}
+
+/* ---------- buttons (same recipe as the landing page) ---------- */
+.btn{--x:50%;--y:50%;position:relative;display:inline-flex;align-items:center;gap:10px;height:42px;padding:0 18px;border-radius:999px;border:1px solid transparent;text-decoration:none;font-size:14px;font-weight:700;color:var(--bg);background:var(--text);white-space:nowrap;isolation:isolate;cursor:pointer;
+  transition:color .35s var(--ease),border-color .35s var(--ease),box-shadow .45s var(--ease);box-shadow:0 10px 30px -12px rgba(0,0,0,.8),0 0 0 0 var(--bg),0 0 0 0 rgba(143,107,255,0)}
+.btn::before{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--purple);clip-path:circle(0% at var(--x) var(--y));transition:clip-path .6s var(--ease);z-index:-1}
+.btn.is-hover::before{clip-path:circle(160% at var(--x) var(--y))}
+.btn.is-hover{color:#fff;box-shadow:0 18px 40px -14px rgba(143,107,255,.6),0 0 0 3px var(--bg),0 0 0 5px var(--purple)}
+.btn svg{width:18px;height:18px;flex:none}
+.btn-ghost{background:transparent;color:var(--text);border-color:var(--line-2);box-shadow:0 0 0 0 var(--bg),0 0 0 0 rgba(242,241,238,0)}
+.btn-ghost::before{background:var(--text)}
+.btn-ghost.is-hover{color:var(--bg);border-color:transparent;box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--text)}
+.btn-lg{height:56px;padding:0 26px;font-size:16px}
+.btn-sm{height:34px;padding:0 14px;font-size:13px}
+.btn .fm{width:13px;height:19px;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round}
+
+/* ---------- article ---------- */
+main{position:relative;z-index:1;padding:0 var(--gutter-r) 0 var(--gutter)}
+.wrap{max-width:1160px;margin:0 auto}
+.hero{padding:56px 0 40px;display:grid;gap:22px;max-width:860px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--purple-2)}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--purple)}
+.hero h1{font-size:clamp(44px,8vw,96px);margin:0}
+.hero .lede{font-size:clamp(17px,2vw,21px);color:var(--dim);margin:0;max-width:720px}
+.meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;color:var(--dim);font-size:13.5px}
+.meta img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--purple)}
+.meta b{color:var(--text);display:block;font-size:14px}
+.meta .dot{width:4px;height:4px;border-radius:50%;background:var(--mute)}
+
+.toc{display:flex;flex-wrap:wrap;gap:8px;padding:0 0 48px}
+.toc a{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 13px 0 8px;border-radius:999px;border:1px solid var(--line-2);text-decoration:none;color:var(--dim);font-size:13px;font-weight:600;transition:background .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease)}
+.toc a:hover{background:var(--bg-3);color:var(--text);border-color:var(--purple)}
+.toc a i{font-family:var(--display);font-style:normal;font-weight:700;font-size:12px;width:20px;height:20px;border-radius:50%;background:var(--purple-soft);color:var(--purple-2);display:grid;place-items:center}
+
+.need{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:0 0 56px}
+.need div{padding:18px 18px 16px;border-radius:16px;background:var(--bg-2);border:1px solid var(--line)}
+.need b{display:block;font-family:var(--display);font-size:18px;margin-bottom:6px}
+.need p{margin:0;color:var(--dim);font-size:14px}
+.need a{color:var(--purple-2);text-decoration:none}
+.need a:hover{text-decoration:underline}
+
+.step{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:start;padding:56px 0;border-top:1px solid var(--line)}
+.step .txt{position:sticky;top:calc(var(--top-h) + 24px)}
+.step .num{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.14em;color:var(--purple-2);display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.step .num::after{content:"";flex:1;max-width:60px;height:1px;background:var(--purple-soft)}
+.step h2{font-size:clamp(30px,4vw,46px);margin:0 0 16px}
+.step p{margin:0 0 14px;color:var(--dim);font-size:16px}
+.step p b,.step li b{color:var(--text);font-weight:600}
+.step ul{margin:0 0 14px;padding-left:20px;color:var(--dim)}
+.step li{margin:6px 0}
+.step li::marker{color:var(--purple)}
+.step .tip{margin-top:18px;padding:14px 16px;border-radius:14px;background:var(--purple-soft);border:1px solid rgba(143,107,255,.3);color:var(--text);font-size:14px}
+.step .tip b{color:var(--purple-2);font-family:var(--display);letter-spacing:.06em;font-size:12px;display:block;margin-bottom:4px}
+.kbd{display:inline-block;padding:1px 7px;border-radius:6px;border:1px solid var(--line-2);background:var(--bg-3);font-family:var(--mono);font-size:12.5px;color:var(--text)}
+.ui{display:inline-block;padding:1px 8px;border-radius:999px;background:var(--bg-3);border:1px solid var(--line);font-weight:600;color:var(--text);font-size:13.5px;white-space:nowrap}
+
+.cmd{display:flex;align-items:center;gap:10px;margin:14px 0;padding:6px 6px 6px 16px;border-radius:14px;background:var(--bg-2);border:1px solid var(--line-2);font-family:var(--mono);font-size:14px;color:var(--text);overflow:hidden}
+.cmd code{flex:1;min-width:0;overflow-x:auto;white-space:nowrap;padding:8px 0;scrollbar-width:none}
+.cmd code::-webkit-scrollbar{display:none}
+.cmd button{flex:none}
+
+.figs{display:grid;gap:18px}
+.shot{position:relative;border-radius:16px;padding:4px;background:rgba(242,241,238,.05);border:1px solid var(--line-2);box-shadow:0 30px 60px -30px rgba(0,0,0,.9)}
+.shot img{display:block;width:100%;height:auto;border-radius:12px;background:#fff}
+.shot.cut,.shot.cut-m{overflow:hidden}
+.shot.cut-m img{aspect-ratio:498/600}
+.shot.cut img{aspect-ratio:498/420}
+.shot.cut img,.shot.cut-m img{object-fit:cover;object-position:top;mask-image:linear-gradient(#000 84%,transparent);-webkit-mask-image:linear-gradient(#000 84%,transparent)}
+.shot figcaption{position:absolute;left:14px;bottom:14px;display:inline-flex;align-items:center;gap:8px;padding:6px 11px;border-radius:999px;background:rgba(11,11,14,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line-2);color:var(--text);font-size:12px;font-weight:600;max-width:calc(100% - 28px)}
+.shot figcaption i{width:7px;height:7px;border-radius:50%;background:var(--purple-2);box-shadow:0 0 0 3px var(--purple-soft);flex:none}
+.pair{display:grid;gap:18px}
+
+.outro{padding:72px 0 40px;border-top:1px solid var(--line);display:grid;gap:28px;justify-items:start}
+.outro h2{font-size:clamp(36px,6vw,72px);margin:0}
+.outro .lede{color:var(--dim);font-size:18px;max-width:640px;margin:0}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.author{display:inline-grid;grid-template-columns:52px 1fr;gap:14px;align-items:center;padding:12px 18px 12px 12px;border-radius:16px;background:var(--bg-2);border:1px solid var(--line);text-align:left}
+.author img{width:52px;height:52px;border-radius:50%;object-fit:cover;display:block;border:2px solid var(--purple)}
+.author b{display:block;font-size:14px}
+.author span{display:block;font-size:12px;color:var(--dim);margin-bottom:6px}
+.author .links{display:flex;gap:6px}
+.author .links a{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;text-decoration:none;color:var(--text);padding:4px 9px;border-radius:999px;border:1px solid var(--line-2);transition:background .3s,color .3s}
+.author .links a:hover{background:var(--text);color:var(--bg)}
+.author .links svg{width:12px;height:12px}
+.credit{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:12px;color:var(--mute);padding:28px 0 calc(40px + env(safe-area-inset-bottom,0px))}
+.credit a{color:var(--dim);text-decoration:none}
+.credit a:hover{color:var(--text)}
+
+@media (max-width:900px){
+  .step{grid-template-columns:1fr;gap:28px;padding:44px 0}
+  .step .txt{position:static}
+  .need{grid-template-columns:1fr}
+  .top .btn-ghost,.brand .sub{display:none}
+  .hero{padding-top:36px}
+}
+@media (max-width:560px){.top-right .crumb{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn::before{transition:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="fm" viewBox="0 0 38 57"><path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z" fill="#1abcfe"/><path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z" fill="#0acf83"/><path d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19z" fill="#ff7262"/><path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z" fill="#f24e1e"/><path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z" fill="#a259ff"/></symbol>
+  <symbol id="gem" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#0b0b0e"/><g transform="translate(17 7.5) scale(.79)"><path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z" fill="#4a2a93"/><path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z" fill="#2d1a5e"/><path d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19z" fill="#5a35ad"/><path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z" fill="#3b2278"/><path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z" fill="#33206b"/><path d="M19 0l9.5 0 0 9.5-9.5 9.5z" fill="#8a66d8" opacity=".55"/><path d="M28.5 19l-5 4 0 9.5 7-3.5z" fill="#9f7ff0" opacity=".45"/><path d="M0 9.5L9.5 0 19 0 5 14z" fill="#6a48b8" opacity=".4"/><path d="M9.5 38L19 38 19 47.5 4 48z" fill="#6a48b8" opacity=".35"/><path d="M0 38q19 -2 38 -9.5" fill="none" stroke="#c8b4ff" stroke-width=".8" opacity=".5"/></g></symbol>
+</defs></svg>
+<div class="glow" aria-hidden="true"></div>
+
+<header class="top">
+  <a class="brand" href="../"><svg class="mark" aria-hidden="true"><use href="#gem"/></svg><span><span class="word">Obspec</span><span class="sub">Obsidian<i>×</i>Figma Specs</span></span></a>
+  <div class="top-right">
+    <a class="crumb" href="../"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg>Home</a>
+    <a data-cta="contribute" data-cta-location="guide-header" class="btn btn-ghost" href="https://github.com/Kamal007OLica/obspec" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.9 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.3 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg><span class="t">Contribute</span></a>
+    <a data-cta="get-plugin" data-cta-location="guide-header" class="btn" href="https://www.figma.com/community/plugin/1693223473984407174" target="_blank" rel="noopener"><svg class="fm"><use href="#fm"/></svg><span class="t">Get the plugin</span></a>
+  </div>
+</header>
+
+<main><div class="wrap">
+  <section class="hero">
+    <span class="eyebrow">Guide · 6 min read</span>
+    <h1 class="d">How to use Obspec<span class="sq"></span></h1>
+    <p class="lede">A one-time setup, then your whole Obsidian vault is one search away from the Figma canvas. Here is every step, with the real plugin on screen.</p>
+    <div class="meta"><img src="../assets/kamal.jpg" alt="" width="36" height="36"><span><b>Kamalraaj Senthilkumar</b>Maker of Obspec</span><span class="dot"></span><time datetime="2026-10-18">18 October 2026</time><span class="dot"></span><span>Plugin v1.1</span></div>
+  </section>
+
+  <nav class="toc" aria-label="Steps">
+    <a href="#install"><i>1</i>Install</a><a href="#setup"><i>2</i>One-time setup</a><a href="#vault"><i>3</i>Pick your vault</a><a href="#search"><i>4</i>Search</a><a href="#note"><i>5</i>Open a note</a><a href="#canvas"><i>6</i>Drop it on the canvas</a><a href="#link"><i>7</i>Link a layer</a><a href="#pull"><i>8</i>Edit, then Pull</a><a href="#send"><i>9</i>Send a design</a><a href="#specs"><i>10</i>Native Specs</a><a href="#settings"><i>11</i>Settings</a><a href="#help"><i>12</i>If something is off</a>
+  </nav>
+
+  <section class="need" aria-label="What you need">
+    <div><b>Figma desktop</b><p>Plugins with a local helper need the desktop app. Obspec is Figma-only for now (FigJam has no frames).</p></div>
+    <div><b>An Obsidian vault</b><p>Any folder of .md files works. Obspec lists the vaults Obsidian already knows about. <a href="https://obsidian.md/download" target="_blank" rel="noopener">Download Obsidian</a></p></div>
+    <div><b>Node 18 or newer</b><p>Needed once, for the setup command. <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a>, the LTS build is fine.</p></div>
+  </section>
+
+  <article>
+  <section class="step" id="install">
+    <div class="txt">
+      <div class="num">STEP 01</div>
+      <h2 class="d">Install the plugin<span class="sq"></span></h2>
+      <p>Open <b>Obspec on Figma Community</b> and press <span class="ui">Open in Figma</span>. From then on it lives under <span class="ui">Plugins</span> in any file, or press <span class="kbd">⌘ /</span> and type Obspec.</p>
+      <p>Open it once. The first screen is the onboarding below: two steps, and you only ever do them once on each computer.</p>
+      <p><a data-cta="get-plugin" data-cta-location="guide-step1" class="btn btn-sm" href="https://www.figma.com/community/plugin/1693223473984407174" target="_blank" rel="noopener"><svg class="fm"><use href="#fm"/></svg><span class="t">Obspec on Figma Community</span></a></p>
+    </div>
+    <div class="figs">
+      <figure class="shot"><img src="img/00-cover.png" alt="The Obspec listing cover: the wordmark, Search your Obsidian vault inside Figma, and a Payment Methods spec card" width="1920" height="960" loading="eager"><figcaption><i></i>Obspec on Figma Community</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="step" id="setup">
+    <div class="txt">
+      <div class="num">STEP 02</div>
+      <h2 class="d">One time setup<span class="sq"></span> The bridge</h2>
+      <p>Figma plugins can't read your disk, so a tiny helper on your computer does it: the <b>Obspec Bridge</b>. It indexes your vault and answers the plugin on <span class="kbd">localhost:27123</span>. Nothing leaves your machine.</p>
+      <p>Open <b>Terminal</b>, paste this, press return:</p>
+      <div class="cmd"><code id="cmd">npx github:Kamal007OLica/obspec</code><button class="btn btn-ghost btn-sm" type="button" data-copy="#cmd" data-cta="copy-setup" data-cta-location="guide-step2">Copy</button></div>
+      <p>It installs the bridge as a <b>background service that starts when you log in</b> and starts it right away. When it prints <span class="ui">Done</span>, close the window. You never run this again. The plugin notices on its own and ticks step 1.</p>
+      <ul>
+        <li><b>Have the Obspec folder?</b> Double-click <span class="ui">Obspec Bridge.command</span> instead. Same result.</li>
+        <li><b>Upgrading later?</b> Run the same command again. It replaces the service and restarts it.</li>
+        <li><b>Want it gone?</b> Add <span class="kbd">uninstall</span> to the end of the command.</li>
+      </ul>
+      <div class="tip"><b>WHERE IT LIVES</b>macOS: a launchd agent in <span class="kbd">~/Library/LaunchAgents</span>. Linux: a systemd user unit. Windows: a script in your Startup folder. The bundle sits in <span class="kbd">~/.obspec/bridge</span>, the log in <span class="kbd">~/.obspec/bridge.log</span>.</div>
+    </div>
+    <div class="figs">
+      <figure class="shot cut-m"><img src="img/01-onboarding-bridge.png" alt="The Obspec plugin's first-run screen: Connect your vault, step 1 Set up the bridge (once) with the setup command and a Copy button, Waiting for the bridge, step 2 Pick your vault" width="498" height="816" loading="lazy"><figcaption><i></i>First run · paste the command once</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="step" id="vault">
+    <div class="txt">
+      <div class="num">STEP 03</div>
+      <h2 class="d">Pick your vault<span class="sq"></span></h2>
+      <p>The bridge reads Obsidian's own vault list, so step 2 shows your vaults by name. The one Obsidian has open right now is marked. <b>Click it.</b></p>
+      <ul>
+        <li><span class="ui">Browse for a folder…</span> opens the normal system dialog if the vault isn't listed.</li>
+        <li>Or paste a folder path into the field and press <span class="ui">Use</span>.</li>
+      </ul>
+      <p>The choice is remembered in <span class="kbd">~/.obspec/config.json</span>. Change it any time under <span class="ui">⚙ Settings → Vault</span>. A 6,000-note vault indexes in well under a second, and the bridge watches the folder from then on.</p>
+    </div>
+    <div class="figs">
+      <figure class="shot cut-m"><img src="img/02-onboarding-vault.png" alt="Step 1 is ticked: Connected, Obspec Bridge v1.1.0. Step 2 lists the vaults Obsidian knows about with a Browse for a folder button and a path field" width="498" height="816" loading="lazy"><figcaption><i></i>Bridge connected · your vaults, by name</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="step" id="search">
+    <div class="txt">
+      <div class="num">STEP 04</div>
+      <h2 class="d">Search your vault<span class="sq"></span></h2>
+      <p>Type in the <span class="ui">Search</span> tab. Results come back in about ten milliseconds, ranked, with the matching words highlighted in a snippet. Title, path, tags and body all count.</p>
+      <ul>
+        <li><span class="kbd">tag:spec</span> only notes with that tag · <span class="kbd">path:Product/</span> only that folder</li>
+        <li><span class="kbd">"exact phrase"</span> in quotes · <span class="kbd">-word</span> to exclude</li>
+        <li><span class="kbd">↑</span> <span class="kbd">↓</span> move, <span class="kbd">↵</span> opens, <span class="kbd">esc</span> clears</li>
+      </ul>
+      <p>The view switch gives you a plain list, cards with thumbnails for notes that embed images, or a compact one-liner. <span class="ui">in Obsidian</span> next to the results runs the same search inside Obsidian, so the matching notes light up in your vault too.</p>
+    </div>
+    <div class="figs">
+      <figure class="shot cut-m"><img src="img/03-search.png" alt="The Search tab with the vault chip Obspec Demo Vault in the header and results for apple pay tag:spec, each with a highlighted snippet, path and tags" width="498" height="816" loading="lazy"><figcaption><i></i>Ranked results · hits highlighted</figcaption></figure>
+      <figure class="shot cut-m"><img src="img/16-dark.png" alt="The same Search tab in the dark theme, results for checkout" width="498" height="816" loading="lazy"><figcaption><i></i>Follows Figma's theme, or override it</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="step" id="note">
+    <div class="txt">
+      <div class="num">STEP 05</div>
+      <h2 class="d">Open a note<span class="sq"></span></h2>
+      <p>Tap a result and the note renders right there: headings, lists, checkboxes, code, embedded images. <b>Wikilinks are clickable</b>, and the backlinks sit underneath, so you can walk your vault without leaving Figma.</p>
+      <p>The action bar at the bottom is the whole plugin in four buttons:</p>
+      <ul>
+        <li><span class="ui">Insert spec card</span> puts the note on the canvas as a frame. Step 6.</li>
+        <li><span class="ui">Link selection</span> attaches the note to the layer you have selected. Step 7.</li>
+        <li><span class="ui">↓</span> saves the note as an <b>.md ready for Figma Specs</b>. Step 10.</li>
+        <li><span class="ui">↗</span> opens it in Obsidian.</li>
+      </ul>
+    </div>
+    <div class="figs">
+      <figure class="shot"><img src="img/04-note.png" alt="A note opened inside the plugin: breadcrumb, title Payment Methods, tags, rendered markdown with rules and copy, and the action bar with Insert spec card and Link selection" width="498" height="816" loading="lazy"><figcaption><i></i>Note view · rendered, linked, ready</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="step" id="canvas">
+    <div class="txt">
+      <div class="num">STEP 06</div>
+      <h2 class="d">Drop a note on the canvas<span class="sq"></span></h2>
+      <p>Press <span class="ui">Insert spec card</span>, or simply <b>drag a search result out of the plugin</b> and let go over the canvas. The note lands where you dropped it as a clean auto-layout frame: eyebrow with the vault path, title, tags, body, and an <span class="ui">Open in Obsidian</span> footer.</p>
+      <p>It is a real Figma frame. Move it next to the screens it describes, resize it, comment on it. The small chip in its corner is the <b>sync status</b>, and it updates live.</p>
+      <p>Every card you insert shows up in the <span class="ui">Linked</span> tab. Click a row to select the frame on the canvas.</p>
+      <div class="tip"><b>ONE RULE</b>Edit the note in Obsidian, not the card. Pulling rebuilds the card from the note, so the note stays the source of truth.</div>
+    </div>
+    <div class="figs">
+      <figure class="shot"><img src="img/05-canvas-card.png" alt="The Figma canvas with three checkout frames and a spec card titled Payment Methods below them, with an In sync chip, tags and the note's rules and copy" width="720" height="903" loading="lazy"><figcaption><i></i>A note as a spec card on the canvas</figcaption></figure>
+      <figure class="shot cut"><img src="img/06-linked.png" alt="The Linked tab listing Spec · Payment Methods with its path and an In sync chip" width="498" height="816" loading="lazy"><figcaption><i></i>Linked tab · every card and layer in one list</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="step" id="link">
+    <div class="txt">
+      <div class="num">STEP 07</div>
+      <h2 class="d">Link a layer you already have<span class="sq"></span></h2>
+      <p>Cards aren't the only way. Select any frame or component on the canvas and open the <span class="ui">Selection</span> tab. It shows the layer and two choices: <span class="ui">Link to a note…</span> and <span class="ui">Send to Obsidian</span>.</p>
+      <p><b>Link to a note…</b> opens the search. Pick the note and the layer is tied to it: the Selection tab now shows the note, the status, and a <span class="ui">Pull</span> button. Nothing is drawn on your design; the link is stored on the layer as plugin data.</p>
+      <p>Linking is how the plugin knows what a design change means, because from now on it compares the layer's fingerprint and the note's hash every time you select it.</p>
+    </div>
+    <div class="figs">
+      <div class="pair">
+        <figure class="shot cut"><img src="img/07-selection-unlinked.png" alt="Selection tab showing the frame Checkout / Payment step with the buttons Link to a note… and Send to Obsidian" width="498" height="816" loading="lazy"><figcaption><i></i>A plain frame, not linked yet</figcaption></figure>
+        <figure class="shot cut"><img src="img/08-link-picker.png" alt="The note picker inside the Selection tab, searching payment methods" width="498" height="816" loading="lazy"><figcaption><i></i>Link to a note…</figcaption></figure>
+      </div>
+      <figure class="shot cut"><img src="img/09-selection-linked.png" alt="Selection tab after linking: Note Payment Methods, Status In sync, Pull from Obsidian and Send to Obsidian buttons" width="498" height="816" loading="lazy"><figcaption><i></i>Linked · In sync</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="step" id="pull">
+    <div class="txt">
+      <div class="num">STEP 08</div>
+      <h2 class="d">Edit in Obsidian<span class="sq"></span> Pull in Figma</h2>
+      <p>Change the note in Obsidian and save. The bridge watches the file, so within a second the status flips to <span class="ui">Note changed</span>, in the Selection tab, in the Linked tab, and on the chip of the card itself.</p>
+      <p>Press <span class="ui">Pull from Obsidian</span>. A spec card is rebuilt from the new text; a linked layer just marks the note as read. Status goes back to <span class="ui">In sync</span>.</p>
+      <p>Nothing is pulled behind your back. You see the change, you decide when it lands.</p>
+    </div>
+    <div class="figs">
+      <figure class="shot cut"><img src="img/10-note-changed.png" alt="Selection tab: Status Note changed in orange, with a purple Pull from Obsidian button" width="498" height="816" loading="lazy"><figcaption><i></i>Obsidian changed the note · Pull is lit</figcaption></figure>
+      <figure class="shot"><img src="img/10b-canvas-note-changed.png" alt="The spec card on the canvas with its corner chip reading Note changed" width="720" height="903" loading="lazy"><figcaption><i></i>Status sits right on the frame</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="step" id="send">
+    <div class="txt">
+      <div class="num">STEP 09</div>
+      <h2 class="d">Change the design<span class="sq"></span> Send it back</h2>
+      <p>The other direction. Select a component or frame and press <span class="ui">Send to Obsidian</span>. Obspec writes a <span class="kbd">## Design</span> section into the linked note: node name, size, fill, label, and a deep link straight to the layer in Figma.</p>
+      <p>No note yet? It creates one, with frontmatter and the same Design section, and links the layer to it.</p>
+      <p>Later, rename the button, change its fill, resize it. Select it and the status reads <span class="ui">Design changed</span>. Send again and the Design section is replaced; the rest of the note is untouched.</p>
+      <div class="tip"><b>WHAT GETS WRITTEN</b>Only headings, lists, quotes, code and dividers. That is the block set Figma Specs understands, so the same note reads cleanly in Obsidian and as a Spec.</div>
+    </div>
+    <div class="figs">
+      <div class="pair">
+        <figure class="shot cut"><img src="img/12-selection-component.png" alt="Selection tab showing the component Button / Primary with Link to a note… and Send to Obsidian" width="498" height="816" loading="lazy"><figcaption><i></i>A component, about to be sent</figcaption></figure>
+        <figure class="shot cut"><img src="img/14-design-changed.png" alt="Selection tab with Status Design changed and a highlighted Send to Obsidian button" width="498" height="816" loading="lazy"><figcaption><i></i>Design changed · send again</figcaption></figure>
+      </div>
+      <figure class="shot"><img src="img/13b-obsidian-note.png" alt="The note Obspec created in the vault: frontmatter with tags and figma fields, then a Design section listing node, size, fill and label" width="312" height="308" loading="lazy"><figcaption><i></i>The note, as Obsidian sees it</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="step" id="specs">
+    <div class="txt">
+      <div class="num">STEP 10</div>
+      <h2 class="d">Make it a native Figma Spec<span class="sq"></span></h2>
+      <p>Figma Specs are markdown underneath, and Figma turns any <span class="kbd">.md</span> file dropped on the canvas into a native Spec. There is no plugin API for that yet, so Obspec meets Specs halfway.</p>
+      <ul>
+        <li>Open a note and press the <span class="ui">↓</span> icon in the action bar. You get <span class="kbd">Title.md</span> with the note's body, a source line (path, tags, an <span class="kbd">obsidian://</span> link) and no dangling wikilinks or embeds.</li>
+        <li>Drop that file on the canvas. Figma builds the Spec.</li>
+      </ul>
+      <p>Use a <b>spec card</b> when you want the note to live inside the design and stay linked. Use a <b>native Spec</b> when you want Figma's own Spec UI. Both read from the same plain .md file in your vault.</p>
+      <p><a class="btn btn-ghost btn-sm" data-cta="figma-specs-help" data-cta-location="guide-step10" href="https://help.figma.com/hc/en-us/articles/44049066011671" target="_blank" rel="noopener"><span class="t">Get started with Figma Specs ↗</span></a></p>
+    </div>
+    <div class="figs">
+      <figure class="shot"><img src="img/04-note.png" alt="The note view again; the download icon in the action bar saves the note as Spec-ready markdown" width="498" height="816" loading="lazy"><figcaption><i></i>The ↓ icon · Save as .md for Figma Specs</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="step" id="settings">
+    <div class="txt">
+      <div class="num">STEP 11</div>
+      <h2 class="d">Settings<span class="sq"></span> and the theme</h2>
+      <p>The <span class="ui">⚙</span> in the header opens Settings. The connection card tells you the vault, how many notes are indexed, the bridge version, and that it is running as the background service.</p>
+      <ul>
+        <li><b>Vault</b> switch to another vault, browse, or paste a path.</li>
+        <li><b>Bridge</b> the address stays <span class="kbd">http://localhost:27123</span>; that is the only one Figma lets the plugin talk to. An optional token adds auth on top.</li>
+        <li><b>Theme</b> the plugin follows Figma's light or dark theme. The <span class="ui">☾</span> button in the header overrides it.</li>
+        <li><b>Support</b> one button drafts a bug report with your plugin and bridge versions. Never your notes.</li>
+      </ul>
+    </div>
+    <div class="figs">
+      <figure class="shot cut-m"><img src="img/15-settings.png" alt="The Settings tab: connection card Connected, vault chooser, bridge address and token fields, theme and support" width="498" height="816" loading="lazy"><figcaption><i></i>Settings · connection, vault, theme, support</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="step" id="help">
+    <div class="txt">
+      <div class="num">STEP 12</div>
+      <h2 class="d">If something is off<span class="sq"></span></h2>
+      <ul>
+        <li><b>“Bridge offline” after a restart.</b> Open Terminal and run <span class="kbd">npx github:Kamal007OLica/obspec status</span>. It tells you whether the service is installed and answering. Run the setup command again to repair it.</li>
+        <li><b>“Waiting for the bridge…” forever.</b> The setup needs Node.js 18 or newer. Install it from nodejs.org and paste the command again.</li>
+        <li><b>No vaults listed.</b> Obsidian hasn't opened one on this computer yet. Browse for the folder or paste its path.</li>
+        <li><b>Want to watch it run?</b> <span class="kbd">npx github:Kamal007OLica/obspec run</span> starts the bridge in a Terminal window instead; the background service steps aside while it runs.</li>
+        <li><b>Privacy.</b> The bridge binds to <span class="kbd">127.0.0.1</span> only and talks to nothing but your vault folder. The plugin bundle loads no fonts, no scripts, no analytics.</li>
+      </ul>
+      <p>Still stuck? Mail <b>kr07.work@gmail.com</b> with your Figma version, OS and the last lines of <span class="kbd">~/.obspec/bridge.log</span>, or open an issue on GitHub.</p>
+    </div>
+    <div class="figs">
+      <figure class="shot cut-m"><img src="img/01-onboarding-bridge.png" alt="The onboarding screen while the bridge is offline: Waiting for the bridge… with a retry now link" width="498" height="816" loading="lazy"><figcaption><i></i>Offline · the plugin waits and retries</figcaption></figure>
+    </div>
+  </section>
+  </article>
+
+  <section class="outro">
+    <h2 class="d">That is the whole plugin<span class="sq"></span></h2>
+    <p class="lede">Search the vault inside Figma. Drop notes on the canvas. Keep both sides in sync, locally. Every note stays a plain .md file, the same format Figma Specs now reads.</p>
+    <div class="ctas">
+      <a data-cta="get-plugin" data-cta-location="guide-outro" class="btn btn-lg" href="https://www.figma.com/community/plugin/1693223473984407174" target="_blank" rel="noopener"><svg class="fm"><use href="#fm"/></svg><span class="t">Get the plugin on Figma</span></a>
+      <a data-cta="report-bug" data-cta-location="guide-outro" class="btn btn-ghost btn-lg" href="mailto:kr07.work@gmail.com?subject=Obspec%20bug%20report"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span class="t">Report a bug</span></a>
+    </div>
+    <div class="author">
+      <img src="../assets/kamal.jpg" alt="Kamalraaj Senthilkumar" width="52" height="52">
+      <div>
+        <b>Kamalraaj Senthilkumar</b><span>Designer who builds. Obspec, Uki AI, ZenMode OS.</span>
+        <div class="links">
+          <a data-cta="email" data-cta-location="guide-author" href="mailto:kr07.work@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Email</a>
+          <a data-cta="linkedin" data-cta-location="guide-author" href="https://www.linkedin.com/in/kamalraaj07" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 2H3.6A1.6 1.6 0 0 0 2 3.6v16.8A1.6 1.6 0 0 0 3.6 22h16.8a1.6 1.6 0 0 0 1.6-1.6V3.6A1.6 1.6 0 0 0 20.4 2zM8 19H5V9.5h3zM6.5 8.2a1.7 1.7 0 1 1 0-3.4 1.7 1.7 0 0 1 0 3.4zM19 19h-3v-4.6c0-1.1 0-2.5-1.5-2.5s-1.8 1.2-1.8 2.4V19h-3V9.5h2.9v1.3a3.2 3.2 0 0 1 2.8-1.5c3 0 3.6 2 3.6 4.6z"/></svg>LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="credit"><span>© 2026 Kamalraaj Senthilkumar</span><a href="../">Obspec home</a><a data-cta="contribute" data-cta-location="guide-footer" href="https://github.com/Kamal007OLica/obspec" target="_blank" rel="noopener">Source on GitHub</a><a data-cta="figma-specs-help" data-cta-location="guide-footer" href="https://help.figma.com/hc/en-us/articles/44049066011671" target="_blank" rel="noopener">Get started with Figma Specs</a><span>Open source, MIT</span><span>Not affiliated with Figma or Obsidian</span><span>Type: OffBit by Power Type</span></div>
+</div></main>
+
+<script>
+(function(){
+'use strict';
+/* buttons: purple fill pours in from where the pointer entered, same as the landing page */
+document.querySelectorAll('.btn').forEach(function(b){
+  function at(e){var r=b.getBoundingClientRect();b.style.setProperty('--x',((e.clientX-r.left)/r.width*100)+'%');b.style.setProperty('--y',((e.clientY-r.top)/r.height*100)+'%');}
+  b.addEventListener('pointerenter',function(e){at(e);b.classList.add('is-hover');});
+  b.addEventListener('pointerleave',function(e){at(e);b.classList.remove('is-hover');});
+});
+/* copy the setup command */
+document.querySelectorAll('[data-copy]').forEach(function(b){
+  b.addEventListener('click',function(){
+    var t=document.querySelector(b.getAttribute('data-copy')).textContent.trim(),label=b.querySelector('.t')||b;
+    function ok(){label.textContent='Copied';setTimeout(function(){label.textContent='Copy';},1600);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){fallback();});}else{fallback();}
+    function fallback(){var ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){}document.body.removeChild(ta);}
+  });
+});
+/* analytics: every a[data-cta] and the copy button, plus the furthest step read */
+function ph(){return window.posthog&&typeof window.posthog.capture==='function'?window.posthog:null;}
+document.querySelectorAll('[data-cta]').forEach(function(a){a.addEventListener('click',function(){var p=ph();if(p)p.capture('cta_clicked',{cta:a.getAttribute('data-cta'),location:a.getAttribute('data-cta-location'),href:a.getAttribute('href')||'',text:(a.textContent||'').trim()});});});
+if('IntersectionObserver' in window){var seen={},io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting||seen[e.target.id])return;seen[e.target.id]=1;var p=ph();if(p)p.capture('guide_step_viewed',{step:e.target.id});});},{threshold:.4});document.querySelectorAll('.step').forEach(function(s){io.observe(s);});}
+})();
+</script>
+</body>
+</html>

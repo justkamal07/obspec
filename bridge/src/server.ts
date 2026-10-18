@@ -28,6 +28,8 @@ export interface BridgeOptions {
   quiet?: boolean;
   /** Remember vault choices in ~/.obspec/config.json (the CLI does; tests and the preview don't). */
   persist?: boolean;
+  /** True when started by the OS service installed by `obspec-bridge setup`; reported in /health. */
+  service?: boolean;
 }
 
 export interface Bridge { server: http.Server; url: string; readonly vault: Vault | null; useVault(dir: string): Promise<Vault>; close(): Promise<void> }
@@ -82,7 +84,7 @@ export async function startBridge(opts: BridgeOptions): Promise<Bridge> {
     try {
       switch (`${req.method} ${url.pathname}`) {
         case 'GET /health': {
-          const body: HealthResponse = { ok: true, version: VERSION, vault: vault?.info() ?? null, platform: process.platform, canPick: canPickFolder() };
+          const body: HealthResponse = { ok: true, version: VERSION, vault: vault?.info() ?? null, platform: process.platform, canPick: canPickFolder(), service: !!opts.service };
           return json(res, body);
         }
         case 'GET /vaults': {

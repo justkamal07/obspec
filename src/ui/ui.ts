@@ -177,14 +177,14 @@ function renderOnboarding(): string {
     </div>
     ${state.choosingVault && state.vault ? `<button class="btn ghost sm" data-act="cancel-choose">Keep ${esc(state.vault.name)}</button>` : ''}`;
   return `<div class="onb">
-    <div class="onb-hero">${icons.logo}<div><h3>Connect your vault</h3><p>Two steps, once. Everything stays on this computer.</p></div></div>
+    <div class="onb-hero">${icons.logo}<div><h3>Connect your vault</h3><p>A one-time setup, two steps. Everything stays on this computer.</p></div></div>
     <ol class="steps">
       <li class="step${step1Done ? ' done' : ' active'}"><span class="n">${step1Done ? icons.check : '1'}</span><div class="step-body">
-        <b>Start the bridge</b>
-        ${step1Done ? `<p class="muted">Connected · Obspec Bridge v${esc(h?.version ?? '')}</p>` : `
-        <p class="muted">A tiny helper on your computer reads your notes for Figma. Open Terminal, paste this, press return and leave it open:</p>
+        <b>Set up the bridge (once)</b>
+        ${step1Done ? `<p class="muted">Connected · Obspec Bridge v${esc(h?.version ?? '')}${h?.service ? ' · runs in the background and starts when you log in' : ''}</p>` : `
+        <p class="muted">A tiny helper on your computer reads your notes for Figma. Open Terminal, paste this once and press return. It installs the helper and starts it in the background, now and every time you log in, so you never do this again:</p>
         <div class="cmd"><code>${esc(BRIDGE_CMD)}</code><button class="btn ghost sm" data-act="copy-cmd" title="Copy">Copy</button></div>
-        <p class="muted">Have the Obspec folder? Double-click <b>Obspec Bridge.command</b> instead.</p>
+        <p class="muted">Needs Node.js 18+ (nodejs.org). Have the Obspec folder? Double-click <b>Obspec Bridge.command</b> instead. You can close the Terminal window when it says Done.</p>
         <p class="waiting"><i class="spin"></i> Waiting for the bridge… <button class="link-btn" data-act="retry">retry now</button></p>
         ${state.healthError ? `<p class="muted" style="color:var(--danger)">${esc(state.healthError)}</p>` : ''}`}
       </div></li>
@@ -292,7 +292,7 @@ function renderSettings(): void {
     <div class="seg" role="radiogroup" aria-label="Theme">${(['auto', 'light', 'dark'] as ThemeMode[]).map((t) => `<button type="button" class="seg-btn${(state.settings.theme ?? 'auto') === t ? ' on' : ''}" role="radio" aria-checked="${(state.settings.theme ?? 'auto') === t}" data-act="theme" data-arg="${t}">${t === 'auto' ? 'Follow Figma' : t === 'light' ? 'Light' : 'Dark'}</button>`).join('')}</div>
     <div class="help">Auto matches Figma's theme as it changes. The sun/moon button in the header is a quick override.</div>
     <label for="s-url">Bridge address</label><input id="s-url" name="bridgeUrl" value="${esc(s.bridgeUrl)}" placeholder="http://localhost:27123" />
-    <div class="help">Where the Obspec Bridge is listening. Start it with <code>npx obspec-bridge --vault &lt;path&gt;</code>. Figma only lets this plugin reach <code>http://localhost:27123</code>, so keep that host and port unless you also edit the manifest.</div>
+    <div class="help">Where the Obspec Bridge is listening. The one-time setup (<code>${esc(BRIDGE_CMD)}</code>) installs it on <code>http://localhost:27123</code>, the only address Figma lets this plugin reach, so keep that host and port unless you also edit the manifest.</div>
     <label for="s-token">Token <span style="font-weight:400;color:var(--text-3)">(optional)</span></label><input id="s-token" name="token" value="${esc(s.token)}" placeholder="Only if you started the bridge with --token" />
     <label for="s-folder">Folder for sent designs</label><input id="s-folder" name="pushFolder" value="${esc(s.pushFolder)}" placeholder="Figma" />
     <div class="help">Notes created by “Send to Obsidian” go here, relative to the vault root.</div>
@@ -301,7 +301,7 @@ function renderSettings(): void {
       <span class="cc-icon">${state.online ? icons.check : icons.wifiOff}</span>
       <div class="cc-text">
         <div class="cc-title">${state.online ? 'Connected' : 'Not connected'}</div>
-        <div class="cc-sub">${state.online ? `${esc(state.vault?.name ?? 'No vault yet')}${state.vault ? ` · ${state.vault.notes.toLocaleString()} notes` : ''} · bridge v${esc(state.health?.version ?? '')}` : esc(state.healthError ?? 'Start the Obspec Bridge to connect')}</div>
+        <div class="cc-sub">${state.online ? `${esc(state.vault?.name ?? 'No vault yet')}${state.vault ? ` · ${state.vault.notes.toLocaleString()} notes` : ''} · bridge v${esc(state.health?.version ?? '')}${state.health?.service ? ' · starts at login' : ' · running in a Terminal window'}` : esc(state.healthError ?? 'Run the one-time setup to connect')}</div>
       </div>
       ${state.online ? '' : `<button class="btn secondary sm" type="button" data-act="retry">${icons.refresh} Retry</button>`}
     </div>

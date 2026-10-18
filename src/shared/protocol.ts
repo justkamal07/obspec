@@ -27,6 +27,8 @@ export interface HealthResponse {
   platform: string;
   /** Whether the bridge can open a native folder dialog on this machine. */
   canPick: boolean;
+  /** True when the bridge runs as the background service installed by the one-time setup (starts at login). */
+  service?: boolean;
 }
 
 /** A vault the bridge knows about: from Obsidian's own registry, the saved config, or the current one. */

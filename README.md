@@ -51,24 +51,26 @@ Figma plugin (UI + sandbox)  ⇄  Obspec Bridge (localhost:27123)  ⇄  your Obs
 
 ## Install
 
-**From Figma Community:** [https://www.figma.com/community/plugin/1693223473984407174](https://www.figma.com/community/plugin/1693223473984407174) → *Open in Figma*. Then start the bridge (step 1 below) and pick your vault in the plugin's first-run screen.
+**From Figma Community:** [https://www.figma.com/community/plugin/1693223473984407174](https://www.figma.com/community/plugin/1693223473984407174) → *Open in Figma*. Then do the one-time setup below and pick your vault in the plugin's first-run screen. A step-by-step guide with screenshots: **https://kamal007olica.github.io/obspec/guide/**.
 
 ## Run it
 
-**1. Start the bridge** (a tiny local helper that reads your vault for Figma). Pick whichever is easiest:
+**1. One-time setup** (installs a tiny local helper that reads your vault for Figma, and makes it start whenever you log in). Open Terminal, paste this once, press return:
 
 ```bash
-npx github:Kamal007OLica/obspec          # no install; builds on first run
+npx github:Kamal007OLica/obspec          # needs Node.js 18+; builds on first run
 ```
-or, with this folder on your Mac, double-click **`Obspec Bridge.command`**. From a clone, `npm install && npm run build && npm run bridge`.
+It prints *Done* when the bridge is running in the background. Close the window; you never run this again (running it again upgrades the service). With the folder on your Mac, double-click **`Obspec Bridge.command`** instead. From a clone, `npm install && npm run build && node bridge/dist/cli.js setup`.
 
-With no arguments the bridge reuses the vault you picked last time, else the vault Obsidian currently has open. `--vault <path>` forces one.
+- macOS: a launchd agent at `~/Library/LaunchAgents/com.obspec.bridge.plist` · Linux: a `systemd --user` unit · Windows: a script in the Startup folder. The bundle lives in `~/.obspec/bridge/`, the log in `~/.obspec/bridge.log`.
+- `npx github:Kamal007OLica/obspec status` shows whether the service is installed and answering; `… uninstall` removes it.
+- Prefer a Terminal window you can watch? `npx github:Kamal007OLica/obspec run` runs the bridge in the foreground instead (`--vault <path>` forces a vault). The service notices another bridge on the port and steps aside.
 
-**2. Import the plugin once.** Figma desktop → Plugins → Development → *Import plugin from manifest…* → `manifest.json`.
+**2. Open Obspec in Figma.** The first run shows a two-step onboarding: it waits for the bridge, then lists the vaults Obsidian knows about on your computer. Click one, or *Browse for a folder…* (native dialog), or paste a path. Change it any time under ⚙ Settings → Vault.
 
-**3. Open Obspec.** The first run shows a two-step onboarding: it waits for the bridge, then lists the vaults Obsidian knows about on your computer. Click one, or *Browse for a folder…* (native dialog), or paste a path. Change it any time under ⚙ Settings → Vault.
+**Developing the plugin itself?** Figma desktop → Plugins → Development → *Import plugin from manifest…* → `manifest.json`.
 
-The plugin talks to `http://localhost:27123`, the only address Figma allows (see `networkAccess` in `manifest.json`). Add `--token <secret>` to the bridge and paste it in Settings if you want auth on top of the loopback bind.
+The plugin talks to `http://localhost:27123`, the only address Figma allows (see `networkAccess` in `manifest.json`). Add `--token <secret>` to a foreground `run` and paste it in Settings if you want auth on top of the loopback bind.
 
 ## Local preview (no Figma needed)
 
@@ -101,7 +103,7 @@ manifest.json          Figma plugin manifest (dynamic-page, networkAccess → lo
 src/plugin/            sandbox: code.ts (messages, links), speccard.ts, snapshot.ts
 src/ui/                plugin UI: ui.ts (state + views), bridge.ts (HTTP/SSE), markdown.ts, app.css
 src/shared/            protocol.ts (every cross-boundary type), notegen.ts (markdown written to the vault)
-bridge/src/            vault.ts (indexer + fs.watch), search.ts, markdown.ts (frontmatter/wikilinks), server.ts, cli.ts
+bridge/src/            vault.ts (indexer + fs.watch), search.ts, markdown.ts (frontmatter/wikilinks), server.ts, cli.ts, service.ts (login service)
 preview/               serve.mjs, index.html, harness.ts (mock Figma sandbox + scenarios)
 examples/vault/        sample Obsidian vault used by the preview and tests
 tests/                 node:test suites (run via scripts/test.mjs)
@@ -111,7 +113,7 @@ tests/                 node:test suites (run via scripts/test.mjs)
 
 | Method | Path | Notes |
 | --- | --- | --- |
-| GET | `/health` | current vault (or `null` on first run), platform, whether a folder dialog is available |
+| GET | `/health` | current vault (or `null` on first run), platform, whether a folder dialog is available, `service: true` when running as the login service |
 | GET | `/vaults` | vaults from Obsidian's registry + saved config, most recently opened first |
 | POST | `/vault` | `{ path }` — switch to (and index) a vault; remembered in `~/.obspec/config.json` |
 | POST | `/vault/pick` | opens the OS folder dialog, then switches to the chosen folder |
@@ -149,7 +151,7 @@ Everything the listing needs is in the repo:
 
 **New computer: yes, with one prerequisite — Node.js 18 or newer** (20+ on Linux for native file watching; older Node falls back to polling). The first-run flow in the plugin walks the user through it:
 
-1. Start the bridge: `npx github:Kamal007OLica/obspec` (needs internet once to fetch it; cached afterwards) or double-click `Obspec Bridge.command`.
+1. One-time setup: `npx github:Kamal007OLica/obspec` (needs internet once to fetch it) or double-click `Obspec Bridge.command`. It installs the bridge as a login service, so from then on it is simply always there.
 2. Pick a vault from the list the bridge reads out of Obsidian's own registry, browse for a folder, or paste a path. The choice is saved to `~/.obspec/config.json`, so the next start needs no arguments.
 
 Windows and Linux are supported by the bridge (paths, folder dialog via PowerShell / zenity), but have only been exercised on macOS so far.

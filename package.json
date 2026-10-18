@@ -7,8 +7,8 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "watch": "node scripts/build.mjs --watch",
-    "bridge": "node bridge/dist/cli.js",
-    "bridge:example": "node bridge/dist/cli.js --vault examples/vault --port 27123",
+    "bridge": "node bridge/dist/cli.js run",
+    "bridge:example": "node bridge/dist/cli.js run --vault examples/vault --port 27123",
     "preview": "node scripts/build.mjs && node preview/serve.mjs",
     "test": "node scripts/test.mjs",
     "emulate": "node scripts/emulate.mjs",
@@ -30,6 +30,7 @@
   "files": [
     "bridge/bin",
     "bridge/dist/cli.js",
+    "bridge/dist/server.js",
     "manifest.json",
     "dist",
     "README.md",
