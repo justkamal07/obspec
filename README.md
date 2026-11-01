@@ -1,11 +1,11 @@
 <p align="center">
-  <a href="https://kamal007olica.github.io/obspec/"><img src="media/outro.png" alt="Obspec: the Figma mark carved from violet obsidian, on a polished plinth" width="880"></a>
+  <a href="https://justkamal07.github.io/obspec/"><img src="media/outro.png" alt="Obspec: the Figma mark carved from violet obsidian, on a polished plinth" width="880"></a>
 </p>
 
 <h1 align="center">Obspec</h1>
 <p align="center"><b>Obsidian × Figma Specs.</b> Search your vault from inside Figma, drop notes onto the canvas as Specs, and keep both sides in sync. Nothing leaves your machine.</p>
 <p align="center">
-  <a href="https://kamal007olica.github.io/obspec/">Website</a> ·
+  <a href="https://justkamal07.github.io/obspec/">Website</a> ·
   <a href="#run-it">Run it</a> ·
   <a href="#local-preview-no-figma-needed">Preview without Figma</a> ·
   <a href="mailto:kr07.work@gmail.com?subject=Obspec%20bug%20report">Report a bug</a>
@@ -28,7 +28,7 @@
 | --- |
 | ![A line typed in Obsidian travels across the thread into the Spec; the plugin shows Note changed and a Pull button](media/pull.png) |
 
-The site at **https://kamal007olica.github.io/obspec/** plays this whole flow as you scroll: six steps, then the stone.
+The site at **https://justkamal07.github.io/obspec/** plays this whole flow as you scroll: six steps, then the stone.
 
 **Obsidian ↔ Figma, both ways.** Search your vault from inside Figma, drop any note onto the canvas as a spec card, link layers to notes, and keep the two in sync — note edits show up in Figma live, and design changes can be sent back into the note.
 
@@ -51,20 +51,20 @@ Figma plugin (UI + sandbox)  ⇄  Obspec Bridge (localhost:27123)  ⇄  your Obs
 
 ## Install
 
-**From Figma Community:** [https://www.figma.com/community/plugin/1693223473984407174](https://www.figma.com/community/plugin/1693223473984407174) → *Open in Figma*. Then do the one-time setup below and pick your vault in the plugin's first-run screen. A step-by-step guide with screenshots: **https://kamal007olica.github.io/obspec/guide/**.
+**From Figma Community:** [https://www.figma.com/community/plugin/1693223473984407174](https://www.figma.com/community/plugin/1693223473984407174) → *Open in Figma*. Then do the one-time setup below and pick your vault in the plugin's first-run screen. A step-by-step guide with screenshots: **https://justkamal07.github.io/obspec/guide/**.
 
 ## Run it
 
 **1. One-time setup** (installs a tiny local helper that reads your vault for Figma, and makes it start whenever you log in). Open Terminal, paste this once, press return:
 
 ```bash
-npx github:Kamal007OLica/obspec          # needs Node.js 18+; builds on first run
+npx github:justkamal07/obspec          # needs Node.js 18+; builds on first run
 ```
 It prints *Done* when the bridge is running in the background. Close the window; you never run this again (running it again upgrades the service). With the folder on your Mac, double-click **`Obspec Bridge.command`** instead. From a clone, `npm install && npm run build && node bridge/dist/cli.js setup`.
 
 - macOS: a launchd agent at `~/Library/LaunchAgents/com.obspec.bridge.plist` · Linux: a `systemd --user` unit · Windows: a script in the Startup folder. The bundle lives in `~/.obspec/bridge/`, the log in `~/.obspec/bridge.log`.
-- `npx github:Kamal007OLica/obspec status` shows whether the service is installed and answering; `… uninstall` removes it.
-- Prefer a Terminal window you can watch? `npx github:Kamal007OLica/obspec run` runs the bridge in the foreground instead (`--vault <path>` forces a vault). The service notices another bridge on the port and steps aside.
+- `npx github:justkamal07/obspec status` shows whether the service is installed and answering; `… uninstall` removes it.
+- Prefer a Terminal window you can watch? `npx github:justkamal07/obspec run` runs the bridge in the foreground instead (`--vault <path>` forces a vault). The service notices another bridge on the port and steps aside.
 
 **2. Open Obspec in Figma.** The first run shows a two-step onboarding: it waits for the bridge, then lists the vaults Obsidian knows about on your computer. Click one, or *Browse for a folder…* (native dialog), or paste a path. Change it any time under ⚙ Settings → Vault.
 
@@ -151,7 +151,7 @@ Everything the listing needs is in the repo:
 
 **New computer: yes, with one prerequisite — Node.js 18 or newer** (20+ on Linux for native file watching; older Node falls back to polling). The first-run flow in the plugin walks the user through it:
 
-1. One-time setup: `npx github:Kamal007OLica/obspec` (needs internet once to fetch it) or double-click `Obspec Bridge.command`. It installs the bridge as a login service, so from then on it is simply always there.
+1. One-time setup: `npx github:justkamal07/obspec` (needs internet once to fetch it) or double-click `Obspec Bridge.command`. It installs the bridge as a login service, so from then on it is simply always there.
 2. Pick a vault from the list the bridge reads out of Obsidian's own registry, browse for a folder, or paste a path. The choice is saved to `~/.obspec/config.json`, so the next start needs no arguments.
 
 Windows and Linux are supported by the bridge (paths, folder dialog via PowerShell / zenity), but have only been exercised on macOS so far.
